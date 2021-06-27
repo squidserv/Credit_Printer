@@ -3,11 +3,11 @@
 --       Made for nsnf-clan.net
 ---------------------------------------
 
-AddCSLuaFile( )
+AddCSLuaFile()
 
 SWEP.HoldType               = "normal"
 
-if ( CLIENT ) then
+if CLIENT then
 
    SWEP.PrintName           = "Credit Printer"
    SWEP.Slot                = 6
@@ -20,7 +20,7 @@ if ( CLIENT ) then
       type = "item_weapon",
       desc = "Break the law"
 
-   };
+  };
 
    SWEP.Icon                = "vgui/ttt/icon_printer.png"
 
@@ -52,77 +52,77 @@ SWEP.LimitedStock           = true
 SWEP.AllowDrop              = false
 SWEP.NoSights               = true
 
-function SWEP:OnDrop( )
+function SWEP:OnDrop()
 
-   self:Remove( )
-
-end
-
-function SWEP:PrimaryAttack( )
-
-   self:SetNextPrimaryFire( CurTime( ) + self.Primary.Delay )
-   self:PrinterDrop( )
+   self:Remove()
 
 end
 
-function SWEP:SecondaryAttack( )
+function SWEP:PrimaryAttack()
 
-   self:SetNextSecondaryFire( CurTime( ) + self.Secondary.Delay )
-   self:PrinterDrop( )
+   self:SetNextPrimaryFire(CurTime() + self.Primary.Delay )
+   self:PrinterDrop()
 
 end
 
-local throwsound = Sound( "Weapon_SLAM.SatchelThrow" )
+function SWEP:SecondaryAttack()
 
-function SWEP:PrinterDrop( )
+   self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay )
+   self:PrinterDrop()
 
-   if ( SERVER ) then
+end
 
-      local ply  = self:GetOwner( )
+local throwsound = Sound("Weapon_SLAM.SatchelThrow" )
 
-      if not IsValid( ply ) then return end
+function SWEP:PrinterDrop()
 
-      local vsrc   = ply:GetShootPos( )
-      local vang   = ply:GetAimVector( )
-      local vvel   = ply:GetVelocity( )
+   if SERVER then
+
+      local ply  = self:GetOwner()
+
+      if not IsValid(ply) then return end
+
+      local vsrc   = ply:GetShootPos()
+      local vang   = ply:GetAimVector()
+      local vvel   = ply:GetVelocity()
       local vthrow = vvel + vang * 200
 
-      local printer = ents.Create( "ent_credit_printer" )
+      local printer = ents.Create("ent_credit_printer" )
 
-      if ( IsValid( printer ) ) then
+      if IsValid(printer) then
 
-         printer:SetPos( vsrc + vang * 10 )
-         printer:Spawn( )
-         printer:PhysWake( )
+         printer:SetPos(vsrc + vang * 10)
+         printer:Spawn()
+         printer:PhysWake()
 
-         local phys = printer:GetPhysicsObject( )
+         local phys = printer:GetPhysicsObject()
 
-         if ( IsValid( phys ) ) then
+         if IsValid(phys) then
 
-            phys:SetVelocity( vthrow )
+            phys:SetVelocity(vthrow)
 
          end   
 
-         self:Remove( )
+         self:Remove()
 
       end
 
    end
 
-   self:EmitSound( throwsound )
+   self:EmitSound(throwsound)
 
 end
 
 
-function SWEP:Reload( )
+function SWEP:Reload()
 
    return false
 
 end
 
-function SWEP:OnRemove( )
+function SWEP:OnRemove()
 
-   if ( CLIENT and IsValid( self:GetOwner( ) ) and self:GetOwner( ) == LocalPlayer( ) and self:GetOwner( ):Alive( ) ) then
+   if CLIENT and IsValid(self:GetOwner())and self:GetOwner() == LocalPlayer() and self:GetOwner():Alive() then
 
       RunConsoleCommand("lastinv")
 
@@ -130,21 +130,21 @@ function SWEP:OnRemove( )
 
 end
 
-if ( CLIENT ) then
+if CLIENT then
 
-   function SWEP:Initialize( )
+   function SWEP:Initialize()
 
-      return self.BaseClass.Initialize( self )
+      return self.BaseClass.Initialize(self )
 
    end
 
 end
 
-function SWEP:Deploy( )
+function SWEP:Deploy()
 
-   if ( SERVER and IsValid( self:GetOwner( ) ) ) then
+   if SERVER and IsValid(self:GetOwner()) then
 
-      self:GetOwner( ):DrawViewModel( false )
+      self:GetOwner():DrawViewModel(false)
 
    end
 
@@ -152,9 +152,9 @@ function SWEP:Deploy( )
 
 end
 
-function SWEP:DrawWorldModel( )
+function SWEP:DrawWorldModel()
 end
 
-function SWEP:DrawWorldModelTranslucent( )
+function SWEP:DrawWorldModelTranslucent()
 end
 
