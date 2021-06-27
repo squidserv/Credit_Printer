@@ -1,5 +1,15 @@
 {
-	"title": "[TTT] Credit Printer",
-	"type": "weapon",
-	"tags": []
+  "title": "TTT Credit Printer for Custom Roles",
+  "type": "weapon",
+  "ignore": [
+    ".git*",
+    ".vscode*",
+    "*.md",
+    "*.iml",
+    ".idea*",
+    "*.psd",
+    "*.vcproj",
+    "*.svn*",
+    "LICENSE"
+  ]
 }
