@@ -122,7 +122,11 @@ end
 
 function ENT:Use( ply )
 
-	if ( IsValid( ply ) and ply:IsPlayer( ) and ( ply:GetRole( ) == ROLE_TRAITOR or ply:GetRole( ) == ROLE_DETECTIVE ) ) then
+	local hasShop = ply:IsShopRole() and
+			(not ply:IsDeputy() or ply:GetNWBool("HasPromotion", false)) and
+			(not ply:IsClown() or ply:GetNWBool("KillerClownActive", false))
+
+	if IsValid(ply) and ply:IsPlayer() and hasShop then
 
 		if ( self:GetStoredCredits( ) > 0 ) then
 		
