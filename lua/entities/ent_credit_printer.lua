@@ -119,14 +119,22 @@ function ENT:Draw()
 
 end
 
+local function IsShopRole(ply)
+	if ply:GetRole() == ROLE_TRAITOR or ply:GetRole() == ROLE_DETECTIVE then
+		return true
+	elseif CR_VERSION then
+		return  ply:IsShopRole() and (not ply:IsDeputy() or ply:GetNWBool("HasPromotion", false))
+				and (not ply:IsClown() or ply:GetNWBool("KillerClownActive", false))
+	elseif ROLES_MAX then
+		return ply:GetRole() == ROLE_HYPNOTIST or ply:GetRole() == ROLE_MERCENARY or ply:GetRole() == ROLE_ASSASSIN
+				or ply:GetRole() == ROLE_KILLER or ply:GetRole() == ROLE_ZOMBIE or ply:GetRole() == ROLE_VAMPIRE
+	end
+	return false
+end
 
 function ENT:Use(ply)
 
-	local hasShop = ply:IsShopRole() and
-			(not ply:IsDeputy() or ply:GetNWBool("HasPromotion", false)) and
-			(not ply:IsClown() or ply:GetNWBool("KillerClownActive", false))
-
-	if IsValid(ply) and ply:IsPlayer() and hasShop then
+	if IsValid(ply) and ply:IsPlayer() and IsShopRole(ply) then
 
 		if self:GetStoredCredits() > 0 then
 		
