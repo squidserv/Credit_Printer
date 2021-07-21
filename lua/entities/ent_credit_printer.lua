@@ -7,6 +7,7 @@ AddCSLuaFile()
 
 CreateConVar("ttt_printer_maxcred",          3,  {FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE}, "Defines amount of Printed credits.")
 CreateConVar("ttt_printer_printduration",    35, {FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE}, "Defiens Print duration.")
+CreateConVar("ttt_printer_hehehesound",    1, {FCVAR_ARCHIVE, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE}, "Play 'hehehe' sound alongside usual credit printing noise.")
 
 if CLIENT then
 
@@ -23,10 +24,10 @@ ENT.MaxCredits     = GetConVar("ttt_printer_maxcred"):GetInt()
 ENT.PrintRate      = GetConVar("ttt_printer_printduration"):GetInt()
 ENT.PrintedCredits = 0
 
-
 local printsound  = "ambient/levels/labs/equipment_printer_loop1.wav"
 local pickupsound = "ttt/pickup.mp3"
 local readysound  = "Buttons.snd4"
+local hehehe = Sound("cphehehe.wav")
 
 
 function ENT:SetupDataTables()
@@ -47,6 +48,10 @@ function ENT:Initialize()
 	self.sound = CreateSound(self, Sound(printsound))
 	self.sound:SetSoundLevel(70)
 	self.sound:PlayEx(1, 100)
+
+	if GetConVar("ttt_printer_hehehesound"):GetBool() then
+		self:EmitSound(hehehe)
+	end
 
 	local b = 32
 
